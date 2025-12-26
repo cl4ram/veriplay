@@ -1,0 +1,45 @@
+body,
+.v-application {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+.brand-font {
+  font-family: 'Chivo', sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.v-btn {
+  font-family: 'Montserrat', sans-serif !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+}
+
+:root {
+  --color-violet: #7c4dff;
+  --color-cyan: #00b8d4;
+  --color-emerald: #00e676;
+  --bg-dark: #0f0f17;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-violet);
+  border-radius: 10px;
+}
+
+.v-application {
+  background-color: transparent !important;
+}
+
+.v-application__wrap {
+  min-height: 100vh;
+}

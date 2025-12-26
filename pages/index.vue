@@ -1,10 +1,18 @@
-<script setup>
-import Carousel from '~/components/Carousel.vue';
+<script setup lang="ts">
+const isAuthorized = ref(false)
+
+onMounted(() => {
+  const token = localStorage.getItem('auth_token')
+  if (!token) {
+    navigateTo('/login')
+  } else {
+    isAuthorized.value = true
+  }
+})
 </script>
 
 <template>
-    <v-container>
-        <h1>Veriplay</h1>
-        <Carousel/>
-    </v-container>
+  <v-container v-if="isAuthorized">
+    <h1>Contenido de la Home</h1>
+  </v-container>
 </template>
