@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   
   modules: [
+    '@pinia/nuxt',
     '@nuxtjs/google-fonts',
     'vuetify-nuxt-module'
   ],
