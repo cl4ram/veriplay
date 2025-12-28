@@ -3,7 +3,7 @@
 <template>
   <v-app>
     <v-app-bar flat color="surface">
-      <Header is-header></Header>
+      <Header is-header :fluid="false"></Header>
     </v-app-bar>
 
     <v-main> <slot> </slot></v-main>
