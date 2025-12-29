@@ -1,4 +1,4 @@
-import type { CustomMovie, CreateMoviePayload } from "~/types/movies"
+import type { CustomMovie, CreateMoviePayload } from '~/types/movies'
 
 export const useMovieStore = defineStore('movies', {
   state: () => ({
@@ -14,11 +14,12 @@ export const useMovieStore = defineStore('movies', {
     },
 
     addMovie(movie: CreateMoviePayload) {
-      const newMovie = { 
-        ...movie, 
-        imdbID: `custom-${Date.now()}`, 
-        isCustom: true 
+      const newMovie: CustomMovie = {
+        ...movie,
+        imdbID: `custom-${Date.now()}`,
+        isCustom: true,
       }
+
       this.customMovies.unshift(newMovie)
       localStorage.setItem('my_custom_movies', JSON.stringify(this.customMovies))
     },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Movie } from '~/types/movies'
+import type { MovieBase } from '~/types/movies'
 
-defineProps<{ movie: Movie }>()
+defineProps<{ movie: MovieBase }>()
 defineEmits(['select'])
 </script>
 
@@ -11,18 +11,17 @@ defineEmits(['select'])
       v-bind="props"
       :elevation="isHovering ? 12 : 2"
       :class="{ 'on-hover': isHovering }"
-      class="mx-auto transition-swing"
-      width="200"
+      class="mx-auto transition-swing movie-card"
       rounded="lg"
       @click="$emit('select', movie.imdbID)"
     >
-      <v-img :src="movie.Poster" height="300" cover class="align-end">
+      <v-img :src="movie.Poster" cover class="align-end movie-poster">
         <div class="fill-height d-flex flex-column justify-end pa-3 gradient-overlay">
-          <div class="text-subtitle-1 font-weight-bold text-white truncate">
-            {{ movie.Title }}
+          <div class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold text-white truncate">
+            {{ formatNA(movie.Title) }}
           </div>
           <div class="text-caption text-grey-lighten-1">
-            {{ movie.Year }}
+            {{ formatMovieYear(movie.Year) }}
           </div>
         </div>
       </v-img>
@@ -31,12 +30,29 @@ defineEmits(['select'])
 </template>
 
 <style scoped>
+.movie-card {
+  width: 150px;
+}
+
+.movie-poster {
+  height: 230px;
+}
+
+@media (min-width: 600px) {
+  .movie-card {
+    width: 200px;
+  }
+  .movie-poster {
+    height: 300px;
+  }
+}
+
 :deep(.v-card__overlay) {
   display: none;
 }
 
 .gradient-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 90%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
 }
 
 .transition-swing {
