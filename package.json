@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
@@ -20,8 +22,11 @@
   "devDependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
     "@types/node": "^25.0.3",
+    "@vitest/ui": "^4.0.16",
+    "jsdom": "^27.4.0",
     "sass-embedded": "^1.97.1",
     "vite-plugin-vuetify": "^2.1.2",
+    "vitest": "^4.0.16",
     "vuetify": "^3.11.5"
   }
 }

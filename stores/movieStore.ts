@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia'
 import type { CustomMovie, CreateMoviePayload } from '~/types/movies'
 
 export const useMovieStore = defineStore('movies', {

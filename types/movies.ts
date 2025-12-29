@@ -3,10 +3,9 @@ export interface MovieBase {
   Title: string
   Year: string
   Poster: string
+  Type?: 'movie' | 'series'
 }
-export interface Movie extends MovieBase {
-  Type: string
-}
+export interface Movie extends MovieBase {}
 export interface MovieSearchResponse {
   Search?: Movie[]
   totalResults?: string

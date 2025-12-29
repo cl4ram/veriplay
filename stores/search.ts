@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia'
 import type { Movie } from '~/types/movies'
 
 export const useSearchStore = defineStore('search', {
