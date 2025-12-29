@@ -3,7 +3,7 @@ import { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  
+  devtools: { enabled: false },
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/google-fonts',
@@ -18,7 +18,6 @@ export default defineNuxtConfig({
     vuetifyOptions: {
     theme: {
       themes: {
-        default: { dark: true },
         dark: {
           colors: {
             primary: '#7C4DFF', 
@@ -70,5 +69,13 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/styles.css'],
+  app: {
+    head: {
+      title: 'VERIPLAY - Peliculas y series',
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' }
+      ]
+    }
+  }
   
 })
