@@ -15,7 +15,6 @@ h3,
 .v-btn {
   font-family: 'Montserrat', sans-serif !important;
   text-transform: none !important;
-  font-weight: 600 !important;
 }
 
 :root {
@@ -28,14 +27,22 @@ h3,
 ::-webkit-scrollbar {
   width: 8px;
 }
+/* En tu archivo de estilos globales (ej. main.scss o app.vue) */
+
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  /* Esto tomará automáticamente el color de fondo definido en tu tema actual */
+  background: rgb(var(--v-theme-background));
 }
+
 ::-webkit-scrollbar-thumb {
+  /* Puedes usar el color primario o una variante de surface para el scroll */
   background: var(--color-violet);
   border-radius: 10px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--v-theme-primary));
+}
 .v-application {
   background-color: transparent !important;
 }

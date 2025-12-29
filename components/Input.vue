@@ -4,7 +4,9 @@ defineProps<{
   label?: string
   placeholder?: string
   isEditing?: boolean
-  type?: string
+  type?: 'text' | 'textarea' | 'search' | string
+  textClases?: string
+  rules?: any[]
 }>()
 
 defineEmits(['update:modelValue'])
@@ -13,31 +15,49 @@ defineEmits(['update:modelValue'])
 <template>
   <div class="app-input-wrapper">
     <div v-if="!isEditing" class="read-mode">
-      <label v-if="label" class="text-caption text-grey-lighten-1 d-block mb-1">{{ label }}</label>
-      <p class="text-body-1 font-weight-medium text-white">
+      <label v-if="label" class="text-caption text-medium-emphasis d-block mb-1">
+        {{ label }}
+      </label>
+
+      <p :class="`${textClases} text-high-emphasis`">
         {{ modelValue || '---' }}
       </p>
     </div>
 
     <v-text-field
-      v-else
+      v-else-if="type !== 'textarea'"
       :label="label"
       :model-value="modelValue"
       @update:model-value="$emit('update:modelValue', $event)"
       :placeholder="placeholder"
-      :type="type === 'textarea' ? 'text' : type"
+      :type="type"
       variant="outlined"
-      color="red-darken-4"
       density="comfortable"
       hide-details="auto"
       clearable
-      :auto-grow="type === 'textarea'"
-      :textarea="type === 'textarea'"
+      class="text-high-emphasis"
+      :rules="rules"
     >
       <template v-if="type === 'search'" #prepend-inner>
         <v-icon icon="mdi-magnify" color="grey" />
       </template>
     </v-text-field>
+
+    <v-textarea
+      v-else
+      :label="label"
+      :model-value="modelValue"
+      @update:model-value="$emit('update:modelValue', $event)"
+      :placeholder="placeholder"
+      variant="outlined"
+      density="comfortable"
+      hide-details="auto"
+      auto-grow
+      clearable
+      rows="3"
+      class="text-high-emphasis"
+      :rules="rules"
+    />
   </div>
 </template>
 

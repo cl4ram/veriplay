@@ -18,6 +18,11 @@ const featuredMovies = ref<MovieDetail[]>([])
 
 const featuredIds = ['tt4574334', 'tt26748649', 'tt1442437', 'tt0903747', 'tt0203259']
 
+const onIntersect = (isIntersecting: boolean) => {
+  if (isIntersecting && !searchStore.loading && searchStore.hasMore) {
+    searchStore.fetchNextPage()
+  }
+}
 const loadFeaturedContent = async () => {
   isFeaturedLoading.value = true
   try {
@@ -52,12 +57,6 @@ const goToDetail = (id: string) => {
 }
 
 onMounted(() => {
-  const token = localStorage.getItem('auth_token')
-  if (!token) {
-    navigateTo('/login')
-    return
-  }
-
   loadHomeContent()
   loadFeaturedContent()
 })
@@ -68,28 +67,32 @@ onMounted(() => {
     <div v-if="searchStore.isSearching" class="pa-6">
       <div class="d-flex align-center mb-6">
         <h2 class="text-h5 font-weight-bold">Resultados para: "{{ searchStore.query }}"</h2>
-        <v-spacer></v-spacer>
-        <v-btn prepend-icon="mdi-close" variant="text" @click="searchStore.clear()">
-          Limpiar búsqueda
-        </v-btn>
       </div>
 
-      <v-row v-if="searchStore.loading" justify="center">
+      <v-row v-if="searchStore.loading && searchStore.results.length === 0" justify="center">
         <v-progress-circular indeterminate color="primary" class="my-10" />
       </v-row>
 
-      <v-row v-else-if="searchStore.results && searchStore.results.length > 0">
-        <v-col
-          v-for="movie in searchStore.results"
-          :key="movie.imdbID"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="2"
-        >
-          <MovieCard :movie="movie" @select="goToDetail" />
-        </v-col>
-      </v-row>
+      <template v-else-if="searchStore.results && searchStore.results.length > 0">
+        <v-row>
+          <v-col
+            v-for="movie in searchStore.results"
+            :key="movie.imdbID"
+            cols="6"
+            sm="4"
+            md="4"
+            lg="3"
+          >
+            <MovieCard :movie="movie" @select="goToDetail" />
+          </v-col>
+        </v-row>
+        <div v-intersect="onIntersect" class="d-flex justify-center py-8 w-100">
+          <v-progress-circular v-if="searchStore.loading" indeterminate color="primary" />
+          <div v-else-if="!searchStore.hasMore" class="text-grey text-caption">
+            No hay más resultados
+          </div>
+        </div>
+      </template>
 
       <v-alert
         v-else
@@ -100,24 +103,32 @@ onMounted(() => {
     </div>
 
     <div v-else>
-      <div v-if="isFeaturedLoading" class="d-flex justify-center py-10">
-        <v-progress-circular indeterminate color="primary" />
-      </div>
-
       <FeaturedCarousel
-        v-else
-        title="Los 5 más populares"
+        title="Las series más vistas"
         :items="featuredMovies"
         @select-movie="goToDetail"
+        :loading="isFeaturedLoading"
       />
 
-      <div class="pa-6">
-        <Carousel title="Universo Marvel" :items="marvelMovies" @select-movie="goToDetail" />
-        <Carousel title="Colección Star Wars" :items="starWarsMovies" @select-movie="goToDetail" />
+      <div>
+        <Carousel
+          title="Universo Marvel"
+          :items="marvelMovies"
+          @select-movie="goToDetail"
+          :loading="isHomeLoading"
+        />
+        <Carousel
+          title="Colección Star Wars"
+          :items="starWarsMovies"
+          @select-movie="goToDetail"
+          :loading="isHomeLoading"
+        />
+
         <Carousel
           title="Batman: El Caballero Oscuro"
           :items="batmanMovies"
           @select-movie="goToDetail"
+          :loading="isHomeLoading"
         />
       </div>
     </div>
