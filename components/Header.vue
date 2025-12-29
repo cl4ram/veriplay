@@ -13,6 +13,8 @@ const router = useRouter()
 const searchStore = useSearchStore()
 const { searchMovies } = useMovies()
 
+const isMobileSearchOpen = ref(false)
+
 const isDark = computed(() => theme.global.current.value.dark)
 const showSearch = computed(() => route.path !== '/login')
 
@@ -58,20 +60,27 @@ watch(
     }, 500)
   }
 )
+
+onUnmounted(() => {
+  if (debounceTimeout) clearTimeout(debounceTimeout)
+})
 </script>
 
 <template>
-  <v-container :fluid="fluid" class="d-flex align-center pa-4">
-    <div class="d-flex align-center logo-header">
+  <v-container :fluid="fluid" class="d-flex align-center pa-4 position-relative">
+    <div
+      v-if="!isMobileSearchOpen || !$vuetify.display.mobile"
+      class="d-flex align-center logo-header"
+    >
       <h1 class="logo-text text-on-surface">VERI<span class="text-gradient">PLAY</span></h1>
     </div>
 
-    <v-spacer></v-spacer>
+    <v-spacer v-if="!isMobileSearchOpen"></v-spacer>
 
-    <v-responsive v-if="showSearch" max-width="400" class="mx-4">
+    <v-responsive v-if="showSearch && !$vuetify.display.mobile" max-width="400" class="mx-4">
       <v-text-field
         v-model="searchStore.query"
-        label="Buscar películas..."
+        label="Buscar titulos..."
         prepend-inner-icon="mdi-magnify"
         variant="solo-filled"
         rounded="pill"
@@ -83,10 +92,42 @@ watch(
       />
     </v-responsive>
 
-    <v-spacer></v-spacer>
+    <div
+      v-if="showSearch && $vuetify.display.mobile"
+      class="mobile-search-wrapper"
+      :class="{ 'mobile-search-active flex-grow-1': isMobileSearchOpen }"
+    >
+      <v-btn v-if="!isMobileSearchOpen" icon variant="text" @click="isMobileSearchOpen = true">
+        <v-icon size="24" class="icon-custom">mdi-magnify</v-icon>
+      </v-btn>
 
-    <v-btn icon variant="text" @click="toggleTheme">
-      <v-icon size="28">
+      <v-text-field
+        v-else
+        v-model="searchStore.query"
+        autofocus
+        prepend-inner-icon="mdi-arrow-left"
+        @click:prepend-inner="isMobileSearchOpen = false"
+        placeholder="Buscar titulos"
+        variant="solo-filled"
+        rounded="pill"
+        flat
+        density="compact"
+        hide-details
+        clearable
+        full-width
+        class="search-input-expanded"
+      />
+    </div>
+
+    <v-spacer v-if="!isMobileSearchOpen"></v-spacer>
+
+    <v-btn
+      v-if="!isMobileSearchOpen || !$vuetify.display.mobile"
+      icon
+      variant="text"
+      @click="toggleTheme"
+    >
+      <v-icon size="24" class="icon-custom">
         {{ isDark ? 'mdi-weather-sunny' : 'mdi-weather-night' }}
       </v-icon>
       <v-tooltip activator="parent" location="bottom">
@@ -112,7 +153,7 @@ watch(
 }
 
 .logo-header .logo-text {
-  font-size: 1.8rem;
+  font-size: 2rem;
   letter-spacing: -1px;
 }
 </style>
