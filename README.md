@@ -61,6 +61,23 @@ Correr tests:
 ```bash
 
 npm run test
+
+```
+
+## Con Docker
+
+Construir la imagen
+
+```bash
+
+docker build -t veriplay .
+```
+
+Correr la aplicación
+
+```bash
+
+docker run -p 3000:3000 veriplay
 ```
 
 ## Variables de Entorno
