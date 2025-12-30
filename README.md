@@ -9,6 +9,10 @@ Además, el usuario puede crear y administrar una lista personalizada de pelícu
 
 La aplicación está pensada como un ejercicio de arquitectura frontend, tipado con TypeScript, manejo de estado con Pinia y testing con Vitest.
 
+Para ingresar a la aplicación es necesario realizar un login con las siguientes credenciales
+mail: admin@veriplay.com
+contraseña: 123456
+
 ## Features
 
 - Búsqueda de películas y series por título
