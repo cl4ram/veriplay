@@ -13,6 +13,13 @@ Para ingresar a la aplicación es necesario realizar un login con las siguientes
 mail: admin@veriplay.com
 contraseña: 123456
 
+## Deploy
+
+https://veriplay-admin.netlify.app/
+
+mail: admin@veriplay.com
+contraseña: 123456
+
 ## Features
 
 - Búsqueda de películas y series por título
